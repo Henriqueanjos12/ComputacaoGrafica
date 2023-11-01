@@ -10,7 +10,6 @@ Original file is located at
 # Bibliotecas
 import math
 import numpy as np
-from matplotlib import *
 import matplotlib.pyplot as plt
 
 # Dicionário para mapear as resoluções
@@ -30,6 +29,10 @@ def deleta_resolucao(largura, altura):
     resolucao = str(largura) + "X" + str(altura)
     if resolucao in resolucoes:
         del resolucoes[resolucao]
+
+
+def deleta_tudo():
+    resolucoes.clear()
 
 
 def ponto(x, y, pixels, cor):
@@ -222,18 +225,99 @@ def rasterizar_curva_hermite(p1x, p1y, p2x, p2y, t1x, t1y, t2x, t2y, num_pontos,
         reta(x1, y1, x2, y2, largura, altura, cor)  # Rasteriza o segmento de reta entre os pontos 1 e 2
 
 
-def plotar_graficos(graficos=None):
-    # Cria uma figura vazia
+def plotar_imagens(graficos=None):
     if graficos is None:
         graficos = resolucoes
+    # Cria uma figura vazia
     fig = plt.figure(figsize=(15, 5))
+
     # Itera sobre o dicionário e exibe cada matriz como um gráfico
     for i, (titulo, matriz) in enumerate(graficos.items()):
+        num_graficos = len(graficos)
+        num_colunas = min(2, num_graficos)  # Define o número máximo de colunas como 2
+        num_linhas = -(-num_graficos // num_colunas)  # Cálculo para o número de linhas
+
         # Adicione um subplot para cada gráfico
-        ax = fig.add_subplot(1, len(graficos), i + 1)
+        ax = fig.add_subplot(num_linhas, num_colunas, i + 1)
         ax.set_title(titulo)
         ax.imshow(matriz, cmap='plasma', origin='lower')  # Exibe a matriz como uma imagem
+
     # Ajusta o layout dos subplots
     plt.tight_layout()
+    # Adiciona um título geral às subplots
+    plt.suptitle('Gráficos')
     # Exibe a figura com os gráficos
     plt.show()
+
+
+def plot_normalizado(graficos=None):
+    if graficos is None:
+        graficos = resolucoes
+    # Cria uma figura vazia
+    fig = plt.figure(figsize=(15, 5))
+
+    # Itera sobre o dicionário e exibe cada matriz como um gráfico
+    for i, (titulo, matriz) in enumerate(graficos.items()):
+        num_graficos = len(graficos)
+        num_colunas = min(2, num_graficos)  # Define o número máximo de colunas como 2
+        num_linhas = -(-num_graficos // num_colunas)  # Cálculo para o número de linhas
+
+        # Adicione um subplot para cada gráfico
+        ax = fig.add_subplot(num_linhas, num_colunas, i + 1)
+        ax.set_title(titulo)
+        ax.imshow(matriz, cmap='plasma', extent=[-1.0, 1.0, -1.0, 1.0],
+                  origin='lower')  # Exibe a matriz como uma imagem
+
+    # Ajusta o layout dos subplots
+    plt.tight_layout()
+    # Adiciona um título geral às subplots
+    plt.suptitle('Gráficos')
+    # Exibe a figura com os gráficos
+    plt.show()
+
+
+# exemplos
+# Resoluções correspondentes a cada subplot
+resolucoes_padroes = [(100, 100), (300, 300), (800, 600), (1920, 1080)]
+for rp in resolucoes_padroes:
+    # Tamanho da matriz de pixels (resolução).
+    largura, altura = rp
+
+    # Poligonos
+    # Defina os vértices dos polígonos com espaço entre eles.
+    triangulo1 = [(-0.8, 0), (-0.4, 0), (-0.6, 0.4)]
+    triangulo2 = [(0.2, 0), (0.6, 0), (0.4, 0.4)]
+    quadrado1 = [(-0.8, 0.8), (-0.5, 0.8), (-0.5, 0.5), (-0.8, 0.5)]
+    quadrado2 = [(0.2, 0.8), (0.5, 0.8), (0.5, 0.5), (0.2, 0.5)]
+    hexagono1 = [(-0.8, -0.8), (-0.4, -0.8), (-0.3, -0.6), (-0.4, -0.4), (-0.8, -0.4), (-0.9, -0.6)]
+    hexagono2 = [(0.2, -0.8), (0.6, -0.8), (0.7, -0.6), (0.6, -0.4), (0.2, -0.4), (0.1, -0.6)]
+
+    # Rasterize os polígonos.
+    poligono(triangulo1, largura, altura, (255, 0, 0))
+    poligono(triangulo2, largura, altura, (255, 255, 0))
+    poligono(quadrado1, largura, altura, (255, 255, 255))
+    poligono(quadrado2, largura, altura, (0, 0, 255))
+    poligono(hexagono1, largura, altura, (0, 255, 255))
+    poligono(hexagono2, largura, altura, (0, 255, 0))
+
+    cor_pixel = (255, 0, 255)
+    # Retas
+    # Reta diagonal Crescente
+    reta(-1, -1, 1, 1, largura, altura, cor_pixel)
+    # Reta diagonal Decrescente
+    reta(-1, 1, 1, -1, largura, altura, cor_pixel)
+    # Reta Vestical baixo para cima esquerda
+    reta(-1, -1, -1, 1, largura, altura, cor_pixel)
+    # Reta Vestical cima para baixo direita
+    reta(1, 1, 1, -1, largura, altura, cor_pixel)
+    # Reta Horizontal esquerda para direita baixo
+    reta(-1, -1, 1, -1, largura, altura, cor_pixel)
+    # Reta Horizontal direita para esquerda cima
+    reta(1, 1, -1, 1, largura, altura, cor_pixel)
+
+    cor_pixel = (0, 0, 255)
+    rasterizar_curva_hermite(0, 0, 0.8, -0.4, 0.8, 0.8, -0.3, -1, 100, largura, altura, cor_pixel)
+    rasterizar_curva_hermite(0.5, 0.5, 0.5, 0.5, -0.5, -1, 0.5, -1, 100, largura, altura, cor_pixel)
+    rasterizar_curva_hermite(-0.5, 0.6, 0.3, 0.6, -0.5, 1, 0.3, -1, 100, largura, altura, cor_pixel)
+    rasterizar_curva_hermite(-0.8, 0, -0.4, 0, 2.2, -2, 0, 1.5, 100, largura, altura, cor_pixel)
+    rasterizar_curva_hermite(0.7, -0.8, 0.5, -0.4, -2, -0.2, 2, -0.2, 100, largura, altura, cor_pixel)
