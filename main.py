@@ -1,9 +1,11 @@
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import computacao_grafica as cg
-import matplotlib
+import sys
 import tkinter as tk
 from tkinter import messagebox
-import sys
+
+import matplotlib
+
+import computacao_grafica as cg
+import exemplos as ex
 
 matplotlib.use('TkAgg')  # Substitua 'TkAgg' pelo backend de GUI de sua escolha
 
@@ -21,19 +23,22 @@ class TextRedirector:
         self.stream.write(text)
 
 
-# Função para criar uma nova janela e exibir a figura
-def exibir_figura(figura):
-    janela_figura = tk.Toplevel()
-    janela_figura.title("Imagem")
-    canvas = FigureCanvasTkAgg(figura, master=janela_figura)
-    canvas.get_tk_widget().pack()
-    canvas.draw()
+def exemplos():
+    try:
+        ex.exemplos()
+        print("Exemplos criados com sucesso!")
+    except:
+        sys.stderr.write(f"Exemplos inválidos, tente novamente!\n")
 
 
 # Função para exibir uma mensagem de ajuda
 def exibir_ajuda():
-    mensagem_ajuda = "Bem-vindo à minha aplicação!\n\nVocê pode usar este programa para fazer..."
-    messagebox.showinfo("Ajuda", mensagem_ajuda)
+    try:
+        mensagem_ajuda = "Bem-vindo à minha aplicação!\n\nVocê pode usar este programa para fazer..."
+        messagebox.showinfo("Ajuda", mensagem_ajuda)
+        print("Ajuda exibida com sucesso!")
+    except:
+        sys.stderr.write(f"Erro ao exibir a ajuda!\n")
 
 
 def obter_vertices(vertices):
@@ -136,7 +141,7 @@ def plot_resolucao():
     try:
         largura, altura = obter_resolucao(resolucao_entry.get())
         # Exibe a figura na nova janela
-        exibir_figura(cg.plot_resolucao(largura, altura))
+        cg.plot_resolucao(largura, altura)
         print("Imagem plotada com sucesso!")
     except:
         sys.stderr.write(f"Erro ao plotar imagem!\n")
@@ -146,7 +151,7 @@ def plot_resolucao_normalizada():
     try:
         largura, altura = obter_resolucao(resolucao_entry.get())
         # Exibe a figura na nova janela
-        exibir_figura(cg.plot_resolucao_normalizada(largura, altura))
+        cg.plot_resolucao_normalizada(largura, altura)
         print("Imagem normalizada plotada com Sucesso!")
     except:
         sys.stderr.write(f"Erro ao plotar imagem normalizada!\n")
@@ -154,7 +159,7 @@ def plot_resolucao_normalizada():
 
 def plot_tudo():
     try:
-        exibir_figura(cg.plot_tudo())
+        cg.plot_tudo()
         print("Imagens plotadas com sucesso!")
     except:
         sys.stderr.write(f"Erro ao plotar imagens!\n")
@@ -162,7 +167,7 @@ def plot_tudo():
 
 def plot_normalizado():
     try:
-        exibir_figura(cg.plot_normalizado())
+        cg.plot_tudo_normalizado()
         print("Imagens normalizadas plotadas com sucesso!")
     except:
         sys.stderr.write(f"Erro ao plotar Imagens normalizadas!\n")
@@ -294,15 +299,19 @@ plotar_button.grid(row=0, column=4, sticky="nsew")
 plotar_button = tk.Button(janela, text="Plotar Resolução Normalizada", command=plot_resolucao_normalizada)
 plotar_button.grid(row=1, column=4, sticky="nsew")
 
-plotar_button = tk.Button(janela, text="Plotar Tudo", command=plot_tudo)
+plotar_button = tk.Button(janela, text="Plotar Todas Resoluções", command=plot_tudo)
 plotar_button.grid(row=0, column=5, columnspan=1, sticky="nsew")
 
-plotar_button = tk.Button(janela, text="Plotar Tudo Normalizado", command=plot_normalizado)
+plotar_button = tk.Button(janela, text="Plotar Todas Resoluções Normalizado", command=plot_normalizado)
 plotar_button.grid(row=1, column=5, columnspan=1, sticky="nsew")
+
+# Criar um botão exemplo
+botao_exemplo = tk.Button(janela, text="Exemplos", command=exemplos)
+botao_exemplo.grid(row=3, column=4, sticky="nsew")
 
 # Criar um botão de ajuda
 botao_ajuda = tk.Button(janela, text="Ajuda", command=exibir_ajuda)
-botao_ajuda.grid(row=3, column=4, columnspan=2, sticky="nsew")
+botao_ajuda.grid(row=3, column=5, sticky="nsew")
 
 # Criar um widget de Text para o terminal
 terminal = tk.Text(janela, state="disabled", wrap="word")

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 # Bibliotecas
-import math
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -252,11 +251,17 @@ def plot_tudo(graficos=None):
         ax = fig.add_subplot(num_linhas, num_colunas, i + 1)
         ax.set_title(titulo)
         ax.imshow(matriz, cmap='plasma', origin='lower')  # Exibe a matriz como uma imagem
+    # Ajusta o layout dos subplots
+    fig.tight_layout()
+    # Adiciona um título geral às subplots
+    plt.suptitle('Todas Resoluções')
+    # Ative o modo interativo
+    plt.ion()
+    # Exibe a figura com os gráficos
+    plt.show()
 
-    return fig
 
-
-def plot_normalizado(graficos=None):
+def plot_tudo_normalizado(graficos=None):
     if graficos is None:
         graficos = resolucoes
     # Cria uma figura vazia
@@ -273,8 +278,14 @@ def plot_normalizado(graficos=None):
         ax.set_title(titulo)
         ax.imshow(matriz, cmap='plasma', extent=[-1.0, 1.0, -1.0, 1.0],
                   origin='lower')  # Exibe a matriz como uma imagem
-
-    return fig
+    # Ajusta o layout dos subplots
+    fig.tight_layout()
+    # Adiciona um título geral às subplots
+    plt.suptitle('Todas Resoluções Normalizadas')
+    # Ative o modo interativo
+    plt.ion()
+    # Exibe a figura com os gráficos
+    plt.show()
 
 
 def plot_resolucao(largura, altura):
@@ -286,10 +297,14 @@ def plot_resolucao(largura, altura):
         ax.imshow(resolucoes[resolucao], origin='lower')
         # Adiciona um título à subplot
         ax.set_title(resolucao)
-        # Retorna a figura
-        return fig
-    else:
-        return None
+        # Ajusta o layout dos subplots
+        fig.tight_layout()
+        # Adiciona um título geral às subplots
+        plt.suptitle('Resolução')
+        # Ative o modo interativo
+        plt.ion()
+        # Exibe a figura com os gráficos
+        plt.show()
 
 
 def plot_resolucao_normalizada(largura, altura):
@@ -301,64 +316,11 @@ def plot_resolucao_normalizada(largura, altura):
         ax.imshow(resolucoes[resolucao], extent=[-1.0, 1.0, -1.0, 1.0], origin='lower')
         # Adiciona um título à subplot
         ax.set_title(resolucao)
-        # Retorna a figura
-        return fig
-    else:
-        return None
-
-
-# exemplos
-# Resoluções correspondentes a cada subplot
-resolucoes_padroes = [(100, 100), (300, 300), (800, 600), (1920, 1080)]
-for rp in resolucoes_padroes:
-    # Tamanho da matriz de pixels (resolução).
-    largura, altura = rp
-
-    # Poligonos
-    # Defina os vértices dos polígonos com espaço entre eles.
-    triangulo1 = [(-0.8, 0), (-0.4, 0), (-0.6, 0.4)]
-    triangulo2 = [(0.2, 0), (0.6, 0), (0.4, 0.4)]
-    quadrado1 = [(-0.8, 0.8), (-0.5, 0.8), (-0.5, 0.5), (-0.8, 0.5)]
-    quadrado2 = [(0.2, 0.8), (0.5, 0.8), (0.5, 0.5), (0.2, 0.5)]
-    hexagono1 = [(-0.7, -0.4), (-0.3, -0.4), (-0.1, -0.6), (-0.3, -0.8), (-0.7, -0.8), (-0.9, -0.6)]
-    hexagono2 = [(0.35, -0.6), (0.55, -0.6), (0.65, -0.5), (0.55, -0.4), (0.35, -0.4), (0.25, -0.5)]
-
-    # Rasterize os polígonos.
-    poligono(triangulo1, largura, altura, (255, 0, 0))
-    poligono(triangulo2, largura, altura, (255, 255, 0))
-    poligono(quadrado1, largura, altura, (255, 255, 255))
-    poligono(quadrado2, largura, altura, (0, 0, 255))
-    poligono(hexagono1, largura, altura, (0, 255, 255))
-    poligono(hexagono2, largura, altura, (0, 255, 0))
-
-    cor_pixel = (255, 0, 255)
-    # Retas
-    # Reta diagonal Crescente
-    reta(-1, -1, 1, 1, largura, altura, cor_pixel)
-    # Reta diagonal Decrescente
-    reta(-1, 1, 1, -1, largura, altura, cor_pixel)
-    # Reta Vestical baixo para cima esquerda
-    reta(-1, -1, -1, 1, largura, altura, cor_pixel)
-    # Reta Vestical cima para baixo direita
-    reta(1, 1, 1, -1, largura, altura, cor_pixel)
-    # Reta Horizontal esquerda para direita baixo
-    reta(-1, -1, 1, -1, largura, altura, cor_pixel)
-    # Reta Horizontal direita para esquerda cima
-    reta(1, 1, -1, 1, largura, altura, cor_pixel)
-
-    cor_pixel = (0, 0, 255)
-    rasterizar_curva_hermite(0, 0, 0.8, -0.4, 0.8, 0.8, -0.3, -1, 100, largura, altura, cor_pixel)
-    rasterizar_curva_hermite(0.5, 0.5, 0.5, 0.5, -0.5, -1, 0.5, -1, 100, largura, altura, cor_pixel)
-    rasterizar_curva_hermite(-0.5, 0.6, 0.3, 0.6, -0.5, 1, 0.3, -1, 100, largura, altura, cor_pixel)
-    rasterizar_curva_hermite(-0.8, 0, -0.4, 0, 2.2, -2, 0, 1.5, 100, largura, altura, cor_pixel)
-    rasterizar_curva_hermite(0.7, -0.8, 0.5, -0.4, -2, -0.2, 2, -0.2, 100, largura, altura, cor_pixel)
-
-# Tamanho da matriz de pixels.
-largura, altura = 500, 500
-retangulo = [(-0.5, -0.5), (-0.5, 0.5), (0.5, 0.5), (0.5, - 0.5)]
-# Rasterize o polígono.
-poligono(retangulo, largura, altura, (255, 255, 0))
-# Defina os vértices do triângulo.
-triangulo = [(0, math.sqrt(3) / 3), (-1 / math.sqrt(3), -1 / 3), (1 / math.sqrt(3), -1 / 3)]
-# Rasteriza o triângulo.
-poligono(triangulo, largura, altura, (255, 0, 0))
+        # Ajusta o layout dos subplots
+        fig.tight_layout()
+        # Adiciona um título geral às subplots
+        plt.suptitle('Resolução Normalizada')
+        # Ative o modo interativo
+        plt.ion()
+        # Exibe a figura com os gráficos
+        plt.show()
