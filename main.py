@@ -7,10 +7,24 @@ import matplotlib
 import computacao_grafica as cg
 import exemplos as ex
 
-matplotlib.use('TkAgg')  # Substitua 'TkAgg' pelo backend de GUI de sua escolha
+matplotlib.use('TkAgg')
 
 
 class TextRedirector:
+    """
+    Redireciona a saída de texto para um widget em uma interface gráfica.
+
+    Esta classe permite redirecionar a saída de texto para um widget de texto em uma interface gráfica, como parte do
+    controle de saída de texto para um aplicativo gráfico.
+
+    :param widget: O widget de texto para o qual a saída será redirecionada.
+    :type widget: tk.Text
+    :param tag: A tag para aplicar ao texto redirecionado (opcional).
+    :type tag: str
+    :param stream: O objeto stream de saída a ser redirecionado (pode ser sys.stdout, sys.stderr, etc.).
+    :type stream: object
+    """
+
     def __init__(self, widget, tag, stream):
         self.widget = widget
         self.tag = tag
@@ -24,33 +38,110 @@ class TextRedirector:
 
 
 def exemplos():
+    """
+    Executa a criação de exemplos.
+
+    Esta função chama a função 'ex.exemplos()' para criar exemplos e imprime uma mensagem de sucesso ou erro, dependendo
+    do resultado. Caso a função 'ex.exemplos()' levante uma exceção, uma mensagem de erro será exibida.
+
+    :return: Nenhum valor é retornado explicitamente.
+    """
     try:
         ex.exemplos()
         print("Exemplos criados com sucesso!")
-    except:
-        sys.stderr.write(f"Exemplos inválidos, tente novamente!\n")
+    except Exception as e:
+        sys.stderr.write(f"Exemplos inválidos, tente novamente!\nErro: {e}\n")
 
 
-# Função para exibir uma mensagem de ajuda
 def exibir_ajuda():
+    """
+    Exibe instruções de uso da interface de Computação Gráfica.
+
+    Esta função exibe instruções de uso para a interface de Computação Gráfica, descrevendo como usar as diferentes
+    funcionalidades disponíveis.
+
+    :return: Nenhum valor é retornado explicitamente.
+    """
     try:
-        mensagem_ajuda = "Bem-vindo à minha aplicação!\n\nVocê pode usar este programa para fazer..."
+        mensagem_ajuda = """
+        Bem-vindo à Interface de Computação Gráfica!
+
+        Instruções de Uso:
+
+        1. Reta:
+           - Preencha os campos P1 e P2 com as coordenadas dos pontos inicial e final da reta (por exemplo, P1: (0.2, 0.3), P2: (0.8, 0.9)).
+           - Especifique a cor em formato RGB nos campos de Cor (por exemplo, Cor: (255, 0, 0) para vermelho).
+           - Insira a resolução da imagem no campo Resolução (por exemplo, Resolução: (800, 600)).
+           - Clique em "Add Reta" para desenhar a reta.
+
+        2. Curva Hermite:
+           - Preencha os campos P1 e P2 com as coordenadas dos pontos inicial e final da curva (por exemplo, P1: (0.2, 0.3), P2: (0.8, 0.9)).
+           - Preencha os campos T1 e T2 com os vetores tangentes em P1 e P2 (por exemplo, T1: (0.5, 0.0), T2: (-0.5, 0.0)).
+           - Especifique a cor em formato RGB nos campos de Cor (por exemplo, Cor: (0, 255, 0) para verde).
+           - Insira a resolução da imagem no campo Resolução (por exemplo, Resolução: (300, 300)).
+           - Especifique o número de pontos para rasterização no campo Nº de pontos.
+           - Clique em "Add Curva" para desenhar a curva de Hermite.
+
+        3. Polígono:
+           - Preencha o campo Vertices com as coordenadas dos vértices do polígono, separados por vírgulas e entre parênteses(por exemplo, Vertices: (0.2, 0.3), (0.5, 0.6), (0.8, 0.9)).
+           - Especifique a cor em formato RGB nos campos de Cor (por exemplo, Cor: (0, 0, 255) para azul).
+           - Insira a resolução da imagem no campo Resolução (por exemplo, Resolução: (1920, 1080)).
+           - Clique em "Add Polígono" para desenhar o polígono.
+
+        4. Excluir Resolução:
+           - Preencha o campo Resolução com a resolução que deseja excluir e clique em "Excluir Resolução" para remover a imagem correspondente.
+
+        5. Excluir Todas Resoluções:
+           - Clique em "Excluir Todas Resoluções" para remover todas as imagens plotadas.
+
+        6. Plotar Resolução:
+           - Preencha o campo Resolução e clique em "Plotar Resolução" para exibir a imagem da resolução especificada.
+
+        7. Plotar Resolução Normalizada:
+           - Preencha o campo Resolução e clique em "Plotar Resolução Normalizada" para exibir a imagem normalizada, -1 a 1, da resolução especificada.
+
+        8. Plotar Todas Resoluções:
+           - Clique em "Plotar Todas Resoluções" para exibir todas as imagens plotadas na interface.
+
+        9. Plotar Todas Resoluções Normalizado:
+           - Clique em "Plotar Todas Resoluções Normalizado" para exibir todas as imagens normalizadas, -1 a 1, plotadas na interface.
+
+        10. Exemplos:
+           - Clique em "Exemplos" para criar exemplos predefinidos para fins de demonstração.
+
+        11. Ajuda:
+           - Clique em "Ajuda" para exibir estas instruções de uso novamente.
+
+        Certifique-se de inserir os valores corretamente e clique nos botões correspondentes para executar as ações desejadas.
+        """
         messagebox.showinfo("Ajuda", mensagem_ajuda)
         print("Ajuda exibida com sucesso!")
-    except:
-        sys.stderr.write(f"Erro ao exibir a ajuda!\n")
+    except Exception as e:
+        sys.stderr.write(f"Erro ao exibir a ajuda!\nErro: {e}\n")
 
 
 def obter_vertices(vertices):
+    """
+    Obtém e processa as coordenadas de vértices de um formato específico.
+
+    Esta função recebe uma sequência de coordenadas de vértices no formato "(a,b),(c,d),(e,f)" e a converte em uma lista de
+    vértices, onde cada vértice é uma tupla (a, b).
+
+    :param vertices: Sequência de coordenadas de vértices no formato "(a,b),(c,d),(e,f)".
+    :type vertices: str
+    :return: Uma lista de vértices no formato [(a, b), (c, d), (e, f), ...].
+    :rtype: list
+    :raises ValueError: Se o formato das coordenadas for inválido.
+    """
     try:
         # Remove os parênteses e divide os pontos
         pontos = vertices.split('),(')
         # Limpa os parênteses e divide os valores x e y usando obter_componentes
-        lista_vertices = [obter_componentes(ponto) for ponto in pontos]
+        lista_vertices = [obter_ponto(ponto) for ponto in pontos]
         if len(lista_vertices) >= 3:
             return lista_vertices
         else:
-            tk.messagebox.showerror("Vértices Inválidos!", "Um poligono deve ter no mínimo 3 vértices.")
+            tk.messagebox.showerror("Vértices Inválidos!", "Um polígono deve ter no mínimo 3 vértices.")
             sys.exit()
     except ValueError:
         tk.messagebox.showerror("Vértices Inválidos!", "Formato inválido. Use (a,b),(c, d),(e,f)...")
@@ -58,36 +149,93 @@ def obter_vertices(vertices):
 
 
 def obter_num_pontos(num_pontos):
+    """
+    Obtém e valida o número de pontos para rasterização.
+
+    Esta função recebe um valor representando o número de pontos para rasterização e valida se é um número inteiro positivo.
+
+    :param num_pontos: O número de pontos para rasterização.
+    :type num_pontos: str
+    :return: O número de pontos validado como um inteiro positivo.
+    :rtype: int
+    :raises ValueError: Se o valor não puder ser convertido em um inteiro positivo.
+    """
     try:
         num_pontos = int(num_pontos)
         if num_pontos > 0:
             return num_pontos  # Retorna num_pontos
         else:
-            messagebox.showerror("Nº de pontos invalido!", "Nº de pontos deve ser positivo.")
+            messagebox.showerror("Nº de pontos inválido!", "Nº de pontos deve ser positivo.")
             sys.exit()
     except ValueError:
-        tk.messagebox.showerror("Nº de pontos invalido!", "Nº de pontos deve ser um inteiro positivo.")
+        tk.messagebox.showerror("Nº de pontos inválido!", "Nº de pontos deve ser um inteiro positivo.")
         sys.exit()
 
 
-def obter_componentes(ponto):
+def obter_ponto(ponto):
+    """
+    Obtém e valida as coordenadas de um ponto no plano.
+
+    Esta função recebe uma sequência de coordenadas de ponto no formato "(px, py)" e a converte em um ponto com coordenadas
+    (px, py). Além disso, ela verifica se as coordenadas do ponto estão no intervalo de -1 a 1.
+
+    :param ponto: Sequência de coordenadas de ponto no formato "(px, py)".
+    :type ponto: str
+    :return: Um ponto com coordenadas (px, py) no intervalo de -1 a 1.
+    :rtype: tuple
+    :raises ValueError: Se o formato das coordenadas for inválido ou se as coordenadas não estiverem no intervalo correto.
+    """
     try:
         # Remove os parênteses e divide os valores
-        x, y = map(float, ponto.strip('()').split(','))
+        px, py = map(float, ponto.strip('()').split(','))
 
         # Verifique se x e y estão no intervalo -1 a 1
-        if -1 <= x <= 1 and -1 <= y <= 1:
-            return x, y
+        if -1 <= px <= 1 and -1 <= py <= 1:
+            return px, py
         else:
-            messagebox.showerror("Ponto(s) e/ou Tangente(s) Invalida(s)!",
-                                 "Valores de Px, Py, Tx e Ty devem estar no intervalo de -1 a 1.")
+            messagebox.showerror("Ponto(s) Inválido(s)!", "Valores de Px e Py devem estar no intervalo de -1 a 1.")
             sys.exit()
     except ValueError:
-        tk.messagebox.showerror("Ponto(s) e/ou Tangente(s) Invalida(s)!", "Formato inválido. Use (x, y)")
+        tk.messagebox.showerror("Ponto(s) e/ou Tangente(s) Inválido(s)!", "Formato inválido. Use (Px, Py)")
+        sys.exit()
+
+
+def obter_tangente(tangente):
+    """
+    Obtém e valida as coordenadas de um vetor de tangente.
+
+    Esta função recebe uma sequência de coordenadas de vetor de tangente no formato "(tx, ty)" e a converte em um vetor de
+    tangente com coordenadas (tx, ty).
+
+    :param tangente: Sequência de coordenadas de vetor de tangente no formato "(tx, ty)".
+    :type tangente: str
+    :return: Um vetor de tangente com coordenadas (tx, ty).
+    :rtype: tuple
+    :raises ValueError: Se o formato das coordenadas for inválido.
+    """
+    try:
+        # Remove os parênteses e divide os valores
+        tx, ty = map(float, tangente.strip('()').split(','))
+        return tx, ty
+    except ValueError:
+        tk.messagebox.showerror("Tangente(s) Inválida(s)!", "Formato inválido. Use (Tx, Ty)")
         sys.exit()
 
 
 def obter_resolucao(resolucao):
+    """
+    Obtém e valida os valores de largura e altura de uma resolução.
+
+    Esta função recebe uma sequência de coordenadas de resolução no formato "(largura, altura)" e a converte em um par de
+    valores de largura e altura. Além disso, ela verifica se ambos os valores são números inteiros maiores que zero.
+
+    :param resolucao: Sequência de coordenadas de resolução no formato "(largura, altura)".
+    :type resolucao: str
+    :return: Um par de valores de largura e altura validados como números inteiros maiores que zero.
+    :rtype: tuple
+    :raises ValueError: Se o formato das coordenadas for inválido ou se largura e altura não forem números inteiros
+    maiores que zero.
+    """
     try:
         # Remove os parênteses e divide os valores
         largura, altura = map(int, resolucao.strip('()').split(','))
@@ -96,14 +244,28 @@ def obter_resolucao(resolucao):
         if isinstance(largura, int) and isinstance(altura, int) and largura > 0 and altura > 0:
             return largura, altura
         else:
-            messagebox.showerror("Resolução Invalida!", "Largura e altura devem ser números inteiros maiores que zero.")
+            messagebox.showerror("Resolução Inválida!", "Largura e altura devem ser números inteiros maiores que zero.")
             sys.exit()
     except ValueError:
-        tk.messagebox.showerror("Resolução Invalida!", "Formato inválido. Use (largura, altura)")
+        tk.messagebox.showerror("Resolução Inválida!", "Formato inválido. Use (largura, altura)")
         sys.exit()
 
 
 def obter_cor(rgb):
+    """
+    Obtém e valida os valores das componentes de cor RGB.
+
+    Esta função recebe uma sequência de coordenadas de cor no formato "(r, g, b)" e a converte em uma tupla com os valores
+    das componentes de cor RGB (r, g, b). Além disso, ela verifica se as componentes são números inteiros e estão no
+    intervalo de 0 a 255.
+
+    :param rgb: Sequência de coordenadas de cor no formato "(r, g, b)".
+    :type rgb: str
+    :return: Uma tupla com os valores das componentes de cor RGB (r, g, b).
+    :rtype: tuple
+    :raises ValueError: Se o formato das coordenadas for inválido, se as componentes não forem números inteiros ou se
+    estiverem fora do intervalo de 0 a 255.
+    """
     try:
         # Remove os parênteses e divide os valores
         r, g, b = map(int, rgb.strip('()').split(','))
@@ -114,21 +276,29 @@ def obter_cor(rgb):
             if 0 <= r <= 255 and 0 <= g <= 255 and 0 <= b <= 255:
                 return r, g, b  # Retorna uma tupla com os valores r, g e b
             else:
-                messagebox.showerror("Cor Invalida!", "Valores de r, g e b devem estar no intervalo de 0 a 255.")
+                messagebox.showerror("Cor Inválida!", "Valores de r, g e b devem estar no intervalo de 0 a 255.")
                 sys.exit()
         else:
-            messagebox.showerror("Cor Invalida!", "r, g e b devem ser números inteiros.")
+            messagebox.showerror("Cor Inválida!", "r, g e b devem ser números inteiros.")
             sys.exit()
     except ValueError:
-        messagebox.showerror("Cor Invalida!", "Formato inválido. Use (r, g, b)")
+        messagebox.showerror("Cor Inválida!", "Formato inválido. Use (r, g, b)")
         sys.exit()
 
 
 def reta():
+    """
+    Cria uma reta em um aplicativo gráfico.
+
+    Esta função obtém os valores dos pontos inicial e final da reta, a resolução da imagem e a cor da reta a partir de campos
+    de entrada. Em seguida, ela chama a função `cg.reta` para desenhar a reta com os parâmetros fornecidos.
+
+    :raises ValueError: Se os valores dos campos de entrada forem inválidos ou se ocorrer um erro ao criar a reta.
+    """
     try:
         # Obtenha os valores dos campos p1x, p1y, p2x, p2y, r, g, b, largura, altura e chame a função reta
-        p1x, p1y = obter_componentes(p1_entry.get())
-        p2x, p2y = obter_componentes(p2_entry.get())
+        p1x, p1y = obter_ponto(p1_entry.get())
+        p2x, p2y = obter_ponto(p2_entry.get())
         largura, altura = obter_resolucao(resolucao_entry.get())
         cor = obter_cor(rgb_entry.get())
         cg.reta(p1x, p1y, p2x, p2y, largura, altura, cor)
@@ -138,6 +308,14 @@ def reta():
 
 
 def plot_resolucao():
+    """
+    Plota e exibe uma imagem com a resolução especificada em uma nova janela.
+
+    Esta função obtém a largura e a altura da resolução da imagem a partir de um campo de entrada e, em seguida, chama a
+    função `cg.plot_resolucao` para exibir a imagem com a resolução especificada.
+
+    :raises ValueError: Se o valor do campo de entrada for inválido ou se ocorrer um erro ao plotar a imagem.
+    """
     try:
         largura, altura = obter_resolucao(resolucao_entry.get())
         # Exibe a figura na nova janela
@@ -148,6 +326,14 @@ def plot_resolucao():
 
 
 def plot_resolucao_normalizada():
+    """
+    Plota e exibe uma imagem com a resolução especificada, mas com coordenadas normalizadas (-1 a 1) em uma nova janela.
+
+    Esta função obtém a largura e a altura da resolução da imagem a partir de um campo de entrada e, em seguida, chama a
+    função `cg.plot_resolucao_normalizada` para exibir a imagem com as coordenadas normalizadas.
+
+    :raises ValueError: Se o valor do campo de entrada for inválido ou se ocorrer um erro ao plotar a imagem normalizada.
+    """
     try:
         largura, altura = obter_resolucao(resolucao_entry.get())
         # Exibe a figura na nova janela
@@ -158,6 +344,13 @@ def plot_resolucao_normalizada():
 
 
 def plot_tudo():
+    """
+    Plota e exibe todas as imagens disponíveis na interface gráfica em uma única figura.
+
+    Esta função chama a função `cg.plot_tudo` para exibir todas as imagens plotadas na interface em uma única figura.
+
+    :raises ValueError: Se ocorrer um erro ao plotar as imagens.
+    """
     try:
         cg.plot_tudo()
         print("Imagens plotadas com sucesso!")
@@ -166,6 +359,15 @@ def plot_tudo():
 
 
 def plot_normalizado():
+    """
+    Plota e exibe todas as imagens disponíveis na interface gráfica com coordenadas normalizadas (-1 a 1)
+    em uma única figura.
+
+    Esta função chama a função `cg.plot_tudo_normalizado` para exibir todas as imagens plotadas na interface
+    com coordenadas normalizadas em uma única figura.
+
+    :raises ValueError: Se ocorrer um erro ao plotar as imagens normalizadas.
+    """
     try:
         cg.plot_tudo_normalizado()
         print("Imagens normalizadas plotadas com sucesso!")
@@ -174,47 +376,79 @@ def plot_normalizado():
 
 
 def curva():
+    """
+    Cria e adiciona uma curva de Hermite na interface gráfica.
+
+    Esta função obtém os valores dos campos, como as coordenadas dos pontos inicial e final, vetores tangentes, número de pontos,
+    cor, largura e altura da imagem, e chama a função `cg.curva_hermite` para desenhar a curva de Hermite.
+
+    :raises ValueError: Se ocorrer um erro ao criar ou adicionar a curva de Hermite.
+    """
     try:
         # Obtenha os valores dos campos p1x, p1y, p2x, p2y, t1x, t1y, t2x, t2y, num_pontos, r, g, b, l,
         # e chame a função rasterizar_curva_hermite
-        p1x, p1y = obter_componentes(p1_entry.get())
-        p2x, p2y = obter_componentes(p2_entry.get())
-        t1x, t1y = obter_componentes(t1_entry.get())
-        t2x, t2y = obter_componentes(t2_entry.get())
+        p1x, p1y = obter_ponto(p1_entry.get())
+        p2x, p2y = obter_ponto(p2_entry.get())
+        t1x, t1y = obter_tangente(t1_entry.get())
+        t2x, t2y = obter_tangente(t2_entry.get())
         num_pontos = obter_num_pontos(num_pontos_entry.get())
         cor = obter_cor(rgb_entry.get())
         largura, altura = obter_resolucao(resolucao_entry.get())
-        cg.rasterizar_curva_hermite(p1x, p1y, p2x, p2y, t1x, t1y, t2x, t2y, num_pontos, largura, altura, cor)
+        cg.curva_hermite(p1x, p1y, p2x, p2y, t1x, t1y, t2x, t2y, num_pontos, largura, altura, cor)
         print("Curva adicionada com sucesso!")
     except:
         sys.stderr.write(f"Curva inválida!, verifique os valores!\n")
 
 
 def poligono():
+    """
+    Cria e adiciona um polígono na interface gráfica.
+
+    Esta função obtém os valores do campo de vértices do polígono, cor, largura e altura da imagem
+    e chama a função `cg.poligono` para desenhar o polígono.
+
+    :raises ValueError: Se ocorrer um erro ao criar ou adicionar o polígono.
+    """
     try:
         # Obtenha os valores dos campos vertices, r, g, b, l, e chame a função poligono
         vertices = obter_vertices(vertices_entry.get())
         cor = obter_cor(rgb_entry.get())
         largura, altura = obter_resolucao(resolucao_entry.get())
         cg.poligono(vertices, largura, altura, cor)
-        print("Polígono criada com sucesso!")
+        print("Polígono criado com sucesso!")
     except:
-        sys.stderr.write(f"Polígono inválido!, verifique os valores!\n")
+        sys.stderr.write(f"Polígono inválido! Verifique os valores!\n")
 
 
 def deleta_resolucao():
+    """
+    Exclui uma resolução da interface gráfica.
+
+    Esta função obtém os valores de largura e altura da imagem a ser excluída
+    e chama a função `cg.deleta_resolucao` para realizar a exclusão.
+
+    :raises ValueError: Se ocorrer um erro ao excluir a resolução.
+    """
     try:
         largura, altura = obter_resolucao(resolucao_entry.get())
         cg.deleta_resolucao(largura, altura)
-        print("Resolução deletada com sucesso!")
+        print("Resolução excluída com sucesso!")
     except:
         sys.stderr.write(f"Erro ao deletar resolução!\n")
 
 
 def deleta_tudo():
+    """
+    Exclui todas as resoluções da interface gráfica.
+
+    Esta função chama a função `cg.deleta_tudo` para excluir todas as resoluções
+    que foram plotadas na interface.
+
+    :raises ValueError: Se ocorrer um erro ao excluir as resoluções.
+    """
     try:
         cg.deleta_tudo()
-        print("Resoluções deletadas com sucesso!")
+        print("Resoluções excluídas com sucesso!")
     except:
         sys.stderr.write(f"Erro ao deletar todas as resoluções!\n")
 
@@ -222,11 +456,6 @@ def deleta_tudo():
 # Crie uma janela principal
 janela = tk.Tk()
 janela.title("Computação Gráfica")
-
-# Definir o tamanho da janela como fixo (largura x altura)
-'''largura_janela = 800
-altura_janela = 600
-janela.geometry(f"{largura_janela}x{altura_janela}")'''
 # Impedir que a janela seja redimensionada
 janela.resizable(False, False)
 

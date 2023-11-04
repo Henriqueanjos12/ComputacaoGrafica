@@ -1,6 +1,8 @@
-import computacao_grafica as cg
-import numpy as np
 import math
+
+import numpy as np
+
+import computacao_grafica as cg
 
 
 def cria_circulo(raio=0.4):
@@ -74,10 +76,10 @@ def exemplos():
         cg.reta(1, 1, -1, 1, largura, altura, cor_pixel)
 
         cor_pixel = (255, 255, 255)
-        cg.rasterizar_curva_hermite(0, 0, 0.8, -0.4, 0.8, 0.8, -0.3, -1, 100, largura, altura, cor_pixel)
-        cg.rasterizar_curva_hermite(0.5, 0.5, 0.5, 0.5, -0.5, -1, 0.5, -1, 100, largura, altura, cor_pixel)
-        cg.rasterizar_curva_hermite(-0.5, 0.6, 0.3, 0.6, -0.5, 1, 0.3, -1, 100, largura, altura, cor_pixel)
-        cg.rasterizar_curva_hermite(-0.8, 0, -0.4, 0, 2.2, -2, 0, 1.5, 100, largura, altura, cor_pixel)
-        cg.rasterizar_curva_hermite(0.7, -0.8, 0.5, -0.4, -2, -0.2, 2, -0.2, 100, largura, altura, cor_pixel)
+        cg.curva_hermite(0, 0, 0.8, -0.4, 0.8, 0.8, -0.3, -1, 100, largura, altura, cor_pixel)
+        cg.curva_hermite(0.5, 0.5, 0.5, 0.5, -0.5, -1, 0.5, -1, 100, largura, altura, cor_pixel)
+        cg.curva_hermite(-0.5, 0.6, 0.3, 0.6, -0.5, 1, 0.3, -1, 100, largura, altura, cor_pixel)
+        cg.curva_hermite(-0.8, 0, -0.4, 0, 2.2, -2, 0, 1.5, 100, largura, altura, cor_pixel)
+        cg.curva_hermite(0.7, -0.8, 0.5, -0.4, -2, -0.2, 2, -0.2, 100, largura, altura, cor_pixel)
         brasil()
         minas_gerais()
