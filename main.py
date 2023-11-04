@@ -124,8 +124,8 @@ def obter_vertices(vertices):
     """
     Obtém e processa as coordenadas de vértices de um formato específico.
 
-    Esta função recebe uma sequência de coordenadas de vértices no formato "(a,b),(c,d),(e,f)" e a converte em uma lista de
-    vértices, onde cada vértice é uma tupla (a, b).
+    Esta função recebe uma sequência de coordenadas de vértices no formato "(a,b),(c,d),(e,f)" e a converte em uma lista
+    de vértices, onde cada vértice é uma tupla (a, b).
 
     :param vertices: Sequência de coordenadas de vértices no formato "(a,b),(c,d),(e,f)".
     :type vertices: str
@@ -152,7 +152,8 @@ def obter_num_pontos(num_pontos):
     """
     Obtém e valida o número de pontos para rasterização.
 
-    Esta função recebe um valor representando o número de pontos para rasterização e valida se é um número inteiro positivo.
+    Esta função recebe um valor representando o número de pontos para rasterização
+    e valida se é um número inteiro positivo.
 
     :param num_pontos: O número de pontos para rasterização.
     :type num_pontos: str
@@ -176,14 +177,15 @@ def obter_ponto(ponto):
     """
     Obtém e valida as coordenadas de um ponto no plano.
 
-    Esta função recebe uma sequência de coordenadas de ponto no formato "(px, py)" e a converte em um ponto com coordenadas
-    (px, py). Além disso, ela verifica se as coordenadas do ponto estão no intervalo de -1 a 1.
+    Esta função recebe uma sequência de coordenadas de ponto no formato "(px, py)" e a converte em um ponto com
+    coordenadas (px, py). Além disso, ela verifica se as coordenadas do ponto estão no intervalo de -1 a 1.
 
     :param ponto: Sequência de coordenadas de ponto no formato "(px, py)".
     :type ponto: str
     :return: Um ponto com coordenadas (px, py) no intervalo de -1 a 1.
     :rtype: tuple
-    :raises ValueError: Se o formato das coordenadas for inválido ou se as coordenadas não estiverem no intervalo correto.
+    :raises ValueError: Se o formato das coordenadas for inválido ou se as coordenadas
+                        não estiverem no intervalo correto.
     """
     try:
         # Remove os parênteses e divide os valores
@@ -204,8 +206,8 @@ def obter_tangente(tangente):
     """
     Obtém e valida as coordenadas de um vetor de tangente.
 
-    Esta função recebe uma sequência de coordenadas de vetor de tangente no formato "(tx, ty)" e a converte em um vetor de
-    tangente com coordenadas (tx, ty).
+    Esta função recebe uma sequência de coordenadas de vetor de tangente no formato "(tx, ty)" e a converte em um vetor
+    de tangente com coordenadas (tx, ty).
 
     :param tangente: Sequência de coordenadas de vetor de tangente no formato "(tx, ty)".
     :type tangente: str
@@ -226,8 +228,8 @@ def obter_resolucao(resolucao):
     """
     Obtém e valida os valores de largura e altura de uma resolução.
 
-    Esta função recebe uma sequência de coordenadas de resolução no formato "(largura, altura)" e a converte em um par de
-    valores de largura e altura. Além disso, ela verifica se ambos os valores são números inteiros maiores que zero.
+    Esta função recebe uma sequência de coordenadas de resolução no formato "(largura, altura)" e a converte em um par
+    de valores de largura e altura. Além disso, ela verifica se ambos os valores são números inteiros maiores que zero.
 
     :param resolucao: Sequência de coordenadas de resolução no formato "(largura, altura)".
     :type resolucao: str
@@ -255,9 +257,9 @@ def obter_cor(rgb):
     """
     Obtém e valida os valores das componentes de cor RGB.
 
-    Esta função recebe uma sequência de coordenadas de cor no formato "(r, g, b)" e a converte em uma tupla com os valores
-    das componentes de cor RGB (r, g, b). Além disso, ela verifica se as componentes são números inteiros e estão no
-    intervalo de 0 a 255.
+    Esta função recebe uma sequência de coordenadas de cor no formato "(r, g, b)" e a converte em uma tupla com os
+    valores das componentes de cor RGB (r, g, b). Além disso, ela verifica se as componentes são números inteiros e
+    estão no intervalo de 0 a 255.
 
     :param rgb: Sequência de coordenadas de cor no formato "(r, g, b)".
     :type rgb: str
@@ -290,8 +292,8 @@ def reta():
     """
     Cria uma reta em um aplicativo gráfico.
 
-    Esta função obtém os valores dos pontos inicial e final da reta, a resolução da imagem e a cor da reta a partir de campos
-    de entrada. Em seguida, ela chama a função `cg.reta` para desenhar a reta com os parâmetros fornecidos.
+    Esta função obtém os valores dos pontos inicial e final da reta, a resolução da imagem e a cor da reta a partir de
+    campos de entrada. Em seguida, ela chama a função `cg.reta` para desenhar a reta com os parâmetros fornecidos.
 
     :raises ValueError: Se os valores dos campos de entrada forem inválidos ou se ocorrer um erro ao criar a reta.
     """
@@ -332,7 +334,8 @@ def plot_resolucao_normalizada():
     Esta função obtém a largura e a altura da resolução da imagem a partir de um campo de entrada e, em seguida, chama a
     função `cg.plot_resolucao_normalizada` para exibir a imagem com as coordenadas normalizadas.
 
-    :raises ValueError: Se o valor do campo de entrada for inválido ou se ocorrer um erro ao plotar a imagem normalizada.
+    :raises ValueError: Se o valor do campo de entrada for inválido ou se
+                        ocorrer um erro ao plotar a imagem normalizada.
     """
     try:
         largura, altura = obter_resolucao(resolucao_entry.get())
@@ -379,8 +382,8 @@ def curva():
     """
     Cria e adiciona uma curva de Hermite na interface gráfica.
 
-    Esta função obtém os valores dos campos, como as coordenadas dos pontos inicial e final, vetores tangentes, número de pontos,
-    cor, largura e altura da imagem, e chama a função `cg.curva_hermite` para desenhar a curva de Hermite.
+    Esta função obtém os valores dos campos, como as coordenadas dos pontos inicial e final, vetores tangentes, número
+    de pontos, cor, largura e altura da imagem, e chama a função cg.curva_hermite para desenhar a curva de Hermite.
 
     :raises ValueError: Se ocorrer um erro ao criar ou adicionar a curva de Hermite.
     """
